@@ -3,19 +3,19 @@ import './TaskList.css'
 import Task from "../Task/Task";
 
 
-const TaskList = () =>{
+const TaskList = ({tasks,removeTask}) =>{
 return (
     <section className="main">
         <ul className="todo-list">
-          <Task status={'completed'} 
-                description={'Completed task'}
-                created={'created 17 seconds ago'}/>
-          <Task status={'editing'} 
-                description={'Editing task'}
-                created={'created 5 minutes ago'}/>
-          <Task status={''} 
-                description={'Active task'}
-                created={'created 5 minutes ago'}/>
+            {tasks.map(el=>{
+                 return (
+                  <Task status={el.status}
+                        description={el.description}
+                        created={el.created}
+                        key={el.id}
+                        removeTask={()=>removeTask(el.id)}/>
+                 ) 
+            })}
         </ul>
       </section>
 )
