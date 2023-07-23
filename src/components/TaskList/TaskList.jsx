@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import './TaskList.css'
 import Task from "../Task/Task";
 
@@ -30,6 +31,14 @@ return (
         </ul>
       </section>
 )
+}
+
+TaskList.propTypes={
+    tasks: PropTypes.array,
+    removeTask: PropTypes.func,
+    onToogleCompleted: PropTypes.func,
+    onToogleIsEdit: PropTypes.func,
+    filter: PropTypes.oneOf(['ALL', 'ACTIVE','COMPLETED'])
 }
 
 export default TaskList;

@@ -1,7 +1,18 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import "./Task.css"
 
 export default class Task extends Component{
+
+  static propTypes = {
+    description: PropTypes.string,
+    created: PropTypes.string,
+    completed: PropTypes.bool,
+    isEdit: PropTypes.bool,
+    removeTask: PropTypes.func,
+    onToogleCompleted: PropTypes.func,
+    onToogleIsEdit: PropTypes.func
+  }
 
   closeEditor = (event)=>{
     if(event.key === 'Enter'){
