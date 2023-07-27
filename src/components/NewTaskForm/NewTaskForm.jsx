@@ -1,46 +1,56 @@
-import React, { Component } from "react";
-import PropTypes from 'prop-types';
-import "./NewTaskForm.css"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import './NewTaskForm.css'
 
-export default class NewTaskForm extends Component{
-    
-    static propTypes={
-        addTask:PropTypes.func
-    }
+export default class NewTaskForm extends Component {
+  static defaultProps = {
+    addTask: () => {
+      console.log('функция addTask не задана')
+    },
+  }
 
-    state = {
-        inputValue:''
-    }
+  static propTypes = {
+    addTask: PropTypes.func,
+  }
 
-    onChangeInput=(e)=>{
-        this.setState({
-                inputValue:e.target.value
-            }
-        )
+  constructor(props) {
+    super(props)
+    this.state = {
+      inputValue: '',
     }
-    onSubmit = (e)=>{
-        e.preventDefault();
-        this.props.addTask(this.state.inputValue,Date.now())
-        this.setState({
-            inputValue:''
-        })
-    }
+  }
 
-    render(){
-        
-        const {inputValue} = this.state
+  onChangeInput = (e) => {
+    this.setState({
+      inputValue: e.target.value,
+    })
+  }
 
-        return (
-            <header className="header">
-                <h1>todos</h1>
-                <form onSubmit={this.onSubmit}>
-                <input className="new-todo" placeholder="What needs to be done?" onChange={this.onChangeInput} value={inputValue}/>
-                </form>
-                
-            </header>
-        );
-    }
+  onSubmit = (e) => {
+    const { addTask } = this.props
+    const { inputValue } = this.state
+    e.preventDefault()
+    addTask(inputValue, Date.now())
+    this.setState({
+      inputValue: '',
+    })
+  }
+
+  render() {
+    const { inputValue } = this.state
+
+    return (
+      <header className="header">
+        <h1>todos</h1>
+        <form onSubmit={this.onSubmit}>
+          <input
+            className="new-todo"
+            placeholder="What needs to be done?"
+            onChange={this.onChangeInput}
+            value={inputValue}
+          />
+        </form>
+      </header>
+    )
+  }
 }
-
-
-

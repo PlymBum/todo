@@ -1,27 +1,54 @@
-import React from "react";
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 import './TasksFilter.css'
 
-const TasksFilter = ({filter,onChangeFilter}) =>{
-    return(
-        
-        <ul className="filters">
-            <li>
-                <button className={filter==='ALL'?'selected':''} onClick={()=>onChangeFilter('ALL')}>All</button>
-            </li>
-            <li>
-                <button className={filter==='ACTIVE'?'selected':''} onClick={()=>onChangeFilter('ACTIVE')}>Active</button>
-            </li>
-            <li>
-                <button className={filter==='COMPLETED'?'selected':''} onClick={()=>onChangeFilter('COMPLETED')}>Completed</button>
-            </li>
-      </ul>
-    )
+function TasksFilter({ filter, onChangeFilter }) {
+  return (
+    <ul className="filters">
+      <li>
+        <button
+          type="button"
+          className={filter === 'ALL' ? 'selected' : ''}
+          aria-label="All"
+          onClick={() => onChangeFilter('ALL')}
+        >
+          All
+        </button>
+      </li>
+      <li>
+        <button
+          className={filter === 'ACTIVE' ? 'selected' : ''}
+          type="button"
+          aria-label="ACTIVE"
+          onClick={() => onChangeFilter('ACTIVE')}
+        >
+          Active
+        </button>
+      </li>
+      <li>
+        <button
+          className={filter === 'COMPLETED' ? 'selected' : ''}
+          type="button"
+          aria-label="COMPLETED"
+          onClick={() => onChangeFilter('COMPLETED')}
+        >
+          Completed
+        </button>
+      </li>
+    </ul>
+  )
 }
 
-TasksFilter.propsType={
-    filter: PropTypes.oneOf(['ALL', 'ACTIVE','COMPLETED']),
-    onChangeFilter: PropTypes.func
+TasksFilter.defaultProps = {
+  filter: 'ALL',
+  onChangeFilter: () => {
+    console.log('функция onChangeFilter не задана')
+  },
 }
 
-export default TasksFilter;
+TasksFilter.propsType = {
+  filter: PropTypes.oneOf(['ALL', 'ACTIVE', 'COMPLETED']),
+  onChangeFilter: PropTypes.func,
+}
+
+export default TasksFilter
