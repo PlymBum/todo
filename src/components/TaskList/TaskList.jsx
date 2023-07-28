@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 import './TaskList.css'
 import Task from '../Task/Task'
 
-function TaskList({ tasks, removeTask, onToogleCompleted, onToogleIsEdit, filter, changeDescription, onToogleStatus }) {
+function TaskList({ tasks, removeTask, onToogleCompleted, filter, onChangeTask, onToogleStatus }) {
+  
   return (
     <section className="main">
       <ul className="todo-list">
@@ -21,18 +22,13 @@ function TaskList({ tasks, removeTask, onToogleCompleted, onToogleIsEdit, filter
           .map((el) => {
             return (
               <Task
-                status={el.status}
-                description={el.description}
-                created={el.created}
-                isEdit={el.isEdit}
-                completed={el.completed}
+                task={el}
                 key={el.id}
-                id={el.id}
                 removeTask={() => removeTask(el.id)}
                 onToogleCompleted={() => onToogleCompleted(el.id)}
-                onToogleIsEdit={() => onToogleIsEdit(el.id)}
-                changeDescription={changeDescription}
+                onChangeTask = {onChangeTask}
                 onToogleStatus={onToogleStatus}
+                completed = {el.completed}
               />
             )
           })}
@@ -40,34 +36,4 @@ function TaskList({ tasks, removeTask, onToogleCompleted, onToogleIsEdit, filter
     </section>
   )
 }
-
-TaskList.defaultProps = {
-  removeTask: () => console.log('Функция removeTask не задана'),
-  onToogleCompleted: () => {
-    console.log('функция onToogleCompleted не задана')
-  },
-  onToogleIsEdit: () => {
-    console.log('функция onToogleIsEdit не задана')
-  },
-  filter: 'ALL',
-  tasks: [
-    {
-      description: 'Не задано',
-      created: 'Неизвестно',
-      id: -100,
-      completed: false,
-      isEdit: false,
-    },
-  ],
-}
-
-TaskList.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  tasks: PropTypes.array,
-  removeTask: PropTypes.func,
-  onToogleCompleted: PropTypes.func,
-  onToogleIsEdit: PropTypes.func,
-  filter: PropTypes.oneOf(['ALL', 'ACTIVE', 'COMPLETED']),
-}
-
 export default TaskList
