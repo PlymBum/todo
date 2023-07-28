@@ -4,10 +4,9 @@ import ViewTask from '../ViewTask'
 import './Task.css'
 import EditingTask from '../EditingTask/EditingTask'
 
-function Task({ task, onChangeTask, onToogleStatus, removeTask, onToogleCompleted}) {
-  const { description, created, completed, status,  id } = task
+function Task({ task, onChangeTask, onToogleStatus, removeTask, onToogleCompleted }) {
+  const { description, created, completed, status, id } = task
 
-  
   return (
     <li className={status}>
       {status !== 'editing' ? (
@@ -23,7 +22,7 @@ function Task({ task, onChangeTask, onToogleStatus, removeTask, onToogleComplete
           key={id}
         />
       ) : (
-        <EditingTask description={description} onChangeTask={onChangeTask} id={id} onToogleStatus={onToogleStatus}/>
+        <EditingTask description={description} onChangeTask={onChangeTask} id={id} onToogleStatus={onToogleStatus} />
       )}
     </li>
   )

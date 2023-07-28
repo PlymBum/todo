@@ -1,11 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import './TaskList.css'
 import Task from '../Task/Task'
 
 function TaskList({ tasks, removeTask, onToogleCompleted, filter, onChangeTask, onToogleStatus }) {
-  
   return (
     <section className="main">
       <ul className="todo-list">
@@ -26,9 +24,9 @@ function TaskList({ tasks, removeTask, onToogleCompleted, filter, onChangeTask, 
                 key={el.id}
                 removeTask={() => removeTask(el.id)}
                 onToogleCompleted={() => onToogleCompleted(el.id)}
-                onChangeTask = {onChangeTask}
+                onChangeTask={onChangeTask}
                 onToogleStatus={onToogleStatus}
-                completed = {el.completed}
+                completed={el.completed}
               />
             )
           })}

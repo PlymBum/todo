@@ -1,7 +1,7 @@
 import React from 'react'
 import './ViewTask.css'
 
-function ViewTask({ id, completed, onToogleCompleted, description, created, onToogleStatus, removeTask, status }) {
+function ViewTask({ id, completed, onToogleCompleted, description, created, onToogleStatus, removeTask }) {
   return (
     <div className="view">
       <input className="toggle" type="checkbox" checked={completed} onChange={onToogleCompleted} />

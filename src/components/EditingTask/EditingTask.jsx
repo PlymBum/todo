@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import './EditingTask.css'
 
 export default class EditingTask extends Component {
- 
-  state = { value: this.props.description }
-  
+  constructor(props) {
+    super(props)
+    const { description } = this.props
+    this.state = { value: description }
+  }
 
   editValue = (e) => {
     const newValue = e.target.value
@@ -12,20 +14,19 @@ export default class EditingTask extends Component {
       value: newValue,
     })
   }
-  setDescription = (e,id,newDesk) =>{
-    const { onChangeTask ,onToogleStatus } = this.props
+
+  setDescription = (e, id, newDesk) => {
+    const { onChangeTask } = this.props
     e.preventDefault()
-    onChangeTask(id,newDesk)
-    
-    
+    onChangeTask(id, newDesk)
   }
 
   render() {
     const { value } = this.state
-    const { editValue,setDescription } = this
+    const { editValue, setDescription } = this
     const { id } = this.props
     return (
-      <form onSubmit={(e)=>setDescription(e,id,value)}>
+      <form onSubmit={(e) => setDescription(e, id, value)}>
         <input type="text" className="edit" onChange={editValue} value={value} />
       </form>
     )

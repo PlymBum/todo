@@ -33,6 +33,7 @@
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "no-plusplus": "off",
       "react/static-property-placement": ["error", "static public field"],
+      "jsx-a11y/label-has-associated-control": "off",
       "import/order": [
         2,
         {
