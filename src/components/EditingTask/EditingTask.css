@@ -1,7 +1,7 @@
 .todo-list li .edit {
-    display: none;
-  }
-  
-  .todo-list li.editing:last-child {
-    margin-bottom: -1px;
-  }
+  display: none;
+}
+
+.todo-list li.editing:last-child {
+  margin-bottom: -1px;
+}
