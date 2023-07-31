@@ -91,21 +91,6 @@ export default class App extends Component {
     })
   }
 
-  // toogleTaskAttribute = (arr, id, attributeName) => {
-  //   const idx = arr.findIndex((el) => el.id === id)
-  //   const editingTask = { ...arr[idx] }
-  //   this.setState(({ tasks }) => {
-  //     const newArr = [
-  //       ...tasks.slice(0, idx),
-  //       { ...editingTask, [attributeName]: !tasks[idx][attributeName] },
-  //       ...tasks.slice(idx + 1),
-  //     ]
-  //     return {
-  //       tasks: newArr,
-  //     }
-  //   })
-  // }
-
   onChangeFilter = (filterName) => {
     this.setState({
       filter: filterName,

@@ -34,9 +34,7 @@ export default class EditingTask extends Component {
 
     if (newDesk === '' || newDesk.trim() === '') {
       onChangeTask(id, description)
-    }
-
-    onChangeTask(id, newDesk)
+    } else onChangeTask(id, newDesk)
   }
 
   render() {
