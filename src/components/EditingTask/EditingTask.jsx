@@ -15,19 +15,31 @@ export default class EditingTask extends Component {
     })
   }
 
+  closeEditing = (e, id) => {
+    const { description, onChangeTask } = this.props
+    if (e.keyCode === 27) {
+      onChangeTask(id, description)
+    }
+  }
+
   setDescription = (e, id, newDesk) => {
-    const { onChangeTask } = this.props
     e.preventDefault()
+    const { onChangeTask, description } = this.props
+
+    if (newDesk === '' || newDesk.trim() === '') {
+      onChangeTask(id, description)
+    }
+
     onChangeTask(id, newDesk)
   }
 
   render() {
     const { value } = this.state
-    const { editValue, setDescription } = this
+    const { editValue, setDescription, closeEditing } = this
     const { id } = this.props
     return (
       <form onSubmit={(e) => setDescription(e, id, value)}>
-        <input type="text" className="edit" onChange={editValue} value={value} />
+        <input type="text" className="edit" value={value} onChange={editValue} onKeyDown={(e) => closeEditing(e, id)} />
       </form>
     )
   }
