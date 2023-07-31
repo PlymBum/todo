@@ -41,9 +41,7 @@ function TasksFilter({ filter, onChangeFilter }) {
 
 TasksFilter.defaultProps = {
   filter: 'ALL',
-  onChangeFilter: () => {
-    console.log('функция onChangeFilter не задана')
-  },
+  onChangeFilter: () => {},
 }
 
 TasksFilter.propsType = {

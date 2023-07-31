@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import ViewTask from '../ViewTask'
 import './Task.css'
@@ -26,6 +27,38 @@ function Task({ task, onChangeTask, onToogleStatus, removeTask, onToogleComplete
       )}
     </li>
   )
+}
+
+Task.defaultProps = {
+  task: {
+    description: 'нет описания',
+    created: 'неизвестно',
+    completed: false,
+    status: 'active',
+    id: null,
+    key: null,
+  },
+  onChangeTask: () => {},
+  onToogleStatus: () => {},
+  removeTask: () => {},
+  onToogleCompleted: () => {},
+}
+
+Task.propTypes = {
+  task: PropTypes.objectOf(
+    PropTypes.shape({
+      description: PropTypes.string,
+      created: PropTypes.string,
+      completed: PropTypes.boolean,
+      status: PropTypes.string,
+      id: PropTypes.number,
+      key: PropTypes.number,
+    })
+  ),
+  onChangeTask: PropTypes.func,
+  onToogleStatus: PropTypes.func,
+  removeTask: PropTypes.func,
+  onToogleCompleted: PropTypes.func,
 }
 
 export default Task

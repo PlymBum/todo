@@ -18,12 +18,8 @@ function Footer({ filter, onChangeFilter, onDeleteCompleted, activeTasks }) {
 
 Footer.defaultProps = {
   filter: 'ALL',
-  onChangeFilter: () => {
-    console.log('функция onChangeFilter не задана')
-  },
-  onDeleteCompleted: () => {
-    console.log('функция onDeleteCompleted не задана')
-  },
+  onChangeFilter: () => {},
+  onDeleteCompleted: () => {},
   activeTasks: 'Неверное значение',
 }
 

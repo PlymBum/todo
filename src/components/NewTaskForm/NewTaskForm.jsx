@@ -4,9 +4,7 @@ import './NewTaskForm.css'
 
 export default class NewTaskForm extends Component {
   static defaultProps = {
-    addTask: () => {
-      console.log('функция addTask не задана')
-    },
+    addTask: () => {},
   }
 
   static propTypes = {

@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import './EditingTask.css'
 
 export default class EditingTask extends Component {
+  static defaultProps = {
+    description: 'нет текста',
+    onChangeTask: () => {},
+    id: null,
+  }
+
   constructor(props) {
     super(props)
     const { description } = this.props

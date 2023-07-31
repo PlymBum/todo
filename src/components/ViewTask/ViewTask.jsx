@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import './ViewTask.css'
 
 function ViewTask({ id, completed, onToogleCompleted, description, created, onToogleStatus, removeTask }) {
@@ -19,6 +20,26 @@ function ViewTask({ id, completed, onToogleCompleted, description, created, onTo
       <button type="button" aria-label="Remove" className="icon icon-destroy" onClick={removeTask} />
     </div>
   )
+}
+
+ViewTask.defaultProps = {
+  description: 'нет описания',
+  created: 'неизвестно',
+  completed: false,
+  id: null,
+  onToogleCompleted: () => {},
+  onToogleStatus: () => {},
+  removeTask: () => {},
+}
+
+ViewTask.propsType = {
+  description: PropTypes.string,
+  created: PropTypes.string,
+  completed: PropTypes.boolean,
+  id: PropTypes.number,
+  onToogleCompleted: PropTypes.func,
+  onToogleStatus: PropTypes.func,
+  removeTask: PropTypes.func,
 }
 
 export default ViewTask

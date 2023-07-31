@@ -41,7 +41,7 @@ export default class App extends Component {
   removeTask = (id) => {
     this.setState((state) => {
       const newTasks = state.tasks.filter((el) => el.id !== id)
-      console.log('ad')
+
       return {
         tasks: newTasks,
       }
