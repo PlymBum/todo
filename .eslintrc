@@ -31,6 +31,7 @@
     "react/prop-types": 0,
     "import/no-unresolved": [2, { "caseSensitive": false }],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "class-methods-use-this": "off",
     "no-plusplus": "off",
     "react/static-property-placement": ["error", "static public field"],
     "jsx-a11y/label-has-associated-control": "off",

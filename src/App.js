@@ -14,9 +14,9 @@ export default class App extends Component {
     this.state = {
       filter: 'ALL',
       tasks: [
-        this.createTask('Learn WebCore', new Date(2023, 3, 22), 'completed', true),
-        this.createTask('Learn JSCore', new Date(2023, 5, 22), 'completed', true),
-        this.createTask('Learn React', new Date(2023, 6, 22), 'active'),
+        this.createTask('Learn WebCore', new Date(2023, 3, 22), 0, 0, 'completed', true),
+        this.createTask('Learn JSCore', new Date(2023, 5, 22), 0, 0, 'completed', true),
+        this.createTask('Learn React', new Date(2023, 6, 22), 0, 0, 'active'),
       ],
     }
   }
@@ -48,8 +48,8 @@ export default class App extends Component {
     })
   }
 
-  addTask = (text, date) => {
-    const newTask = this.createTask(text, date)
+  addTask = (text, date, minute, second) => {
+    const newTask = this.createTask(text, date, minute, second)
     this.setState(({ tasks }) => {
       return {
         tasks: [...tasks, newTask],
@@ -111,13 +111,27 @@ export default class App extends Component {
     return tasks.filter((el) => el.completed === false).length
   }
 
-  createTask(description, date, status = 'active', completed = false) {
+  updateTimer = (id, minute, second) => {
+    const { tasks: tasksArr } = this.state
+    const idx = tasksArr.findIndex((el) => el.id === id)
+    const editingTask = { ...tasksArr[idx] }
+    this.setState(({ tasks }) => {
+      const newArr = [...tasks.slice(0, idx), { ...editingTask, minute, second }, ...tasks.slice(idx + 1)]
+      return {
+        tasks: newArr,
+      }
+    })
+  }
+
+  createTask(description, date, minute = 0, second = 0, status = 'active', completed = false) {
     return {
       description,
       created: formatDistanceToNow(date, { addSuffix: true }),
       id: this.maxId++,
       status,
       completed,
+      minute,
+      second,
     }
   }
 
@@ -132,6 +146,7 @@ export default class App extends Component {
       activeTasksCount,
       onToogleStatus,
       onChangeTask,
+      updateTimer,
     } = this
     return (
       <section className="todoapp">
@@ -143,6 +158,7 @@ export default class App extends Component {
           onToogleCompleted={onToogleCompleted}
           onToogleStatus={onToogleStatus}
           onChangeTask={onChangeTask}
+          updateTimer={updateTimer}
         />
         <Footer
           filter={filter}

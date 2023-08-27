@@ -1,13 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './ViewTask.css'
 
-function ViewTask({ id, completed, onToogleCompleted, description, created, onToogleStatus, removeTask }) {
+import './ViewTask.css'
+import Timer from '../Timer/Timer'
+
+function ViewTask({
+  id,
+  completed,
+  onToogleCompleted,
+  description,
+  created,
+  onToogleStatus,
+  removeTask,
+  minute,
+  second,
+  updateTimer,
+}) {
   return (
     <div className="view">
       <input className="toggle" type="checkbox" checked={completed} onChange={onToogleCompleted} />
       <label>
         <span className="description">{description}</span>
+        {!completed ? <Timer minute={minute} second={second} updateTimer={updateTimer} id={id} /> : null}
         <span className="created">{created}</span>
       </label>
       <button

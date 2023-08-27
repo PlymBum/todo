@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import './TaskList.css'
 import Task from '../Task/Task'
 
-function TaskList({ tasks, removeTask, onToogleCompleted, filter, onChangeTask, onToogleStatus }) {
+function TaskList({ tasks, removeTask, onToogleCompleted, filter, onChangeTask, onToogleStatus, updateTimer }) {
   return (
     <section className="main">
       <ul className="todo-list">
@@ -28,6 +28,9 @@ function TaskList({ tasks, removeTask, onToogleCompleted, filter, onChangeTask, 
                 onChangeTask={onChangeTask}
                 onToogleStatus={onToogleStatus}
                 completed={el.completed}
+                minute={el.minute}
+                second={el.second}
+                updateTimer={updateTimer}
               />
             )
           })}

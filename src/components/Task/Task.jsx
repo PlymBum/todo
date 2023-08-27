@@ -5,7 +5,7 @@ import ViewTask from '../ViewTask'
 import './Task.css'
 import EditingTask from '../EditingTask/EditingTask'
 
-function Task({ task, onChangeTask, onToogleStatus, removeTask, onToogleCompleted }) {
+function Task({ task, onChangeTask, onToogleStatus, removeTask, onToogleCompleted, updateTimer, minute, second }) {
   const { description, created, completed, status, id } = task
 
   return (
@@ -21,6 +21,9 @@ function Task({ task, onChangeTask, onToogleStatus, removeTask, onToogleComplete
           onToogleStatus={onToogleStatus}
           id={id}
           key={id}
+          minute={minute}
+          second={second}
+          updateTimer={updateTimer}
         />
       ) : (
         <EditingTask description={description} onChangeTask={onChangeTask} id={id} onToogleStatus={onToogleStatus} />
