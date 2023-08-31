@@ -1,48 +1,14 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 import './NewTaskForm.css'
 
-export default class NewTaskForm extends Component {
-  static defaultProps = {
-    addTask: () => {},
+export default function NewTaskForm({ addTask }) {
+  const [inputValue, setInputValue] = useState('')
+  const [time, setTime] = useState({ minute: '', second: '' })
+
+  const onChangeInputDescription = (e) => {
+    setInputValue(e.target.value)
   }
-
-  static propTypes = {
-    addTask: PropTypes.func,
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      inputValue: '',
-      minute: '',
-      second: '',
-    }
-  }
-
-  onChangeInputDescription = (e) => {
-    this.setState({
-      inputValue: e.target.value,
-    })
-  }
-
-  onChangeInputMinute = (e) => {
-    const minutValue = this.validateTime(e.target.value, 0, 59)
-
-    this.setState({
-      minute: minutValue,
-    })
-  }
-
-  onChangeInputSecond = (e) => {
-    const secondValue = this.validateTime(e.target.value, 0, 59)
-
-    this.setState({
-      second: secondValue,
-    })
-  }
-
-  validateTime = (value, min, max) => {
+  const validateTime = (value, min, max) => {
     if (value > max) {
       return max
     }
@@ -51,62 +17,64 @@ export default class NewTaskForm extends Component {
     }
     return +value
   }
+  const convertToSecond = (min, sec) => {
+    return min * 60 + sec
+  }
+  const onChangeInputMinute = (e) => {
+    const minutValue = validateTime(e.target.value, 0, 59)
+    setTime((prev) => ({ ...prev, minute: minutValue }))
+  }
 
-  onCatchKeyDown = (e) => {
-    const { addTask } = this.props
-    const { inputValue, minute, second } = this.state
+  const onChangeInputSecond = (e) => {
+    const secondValue = validateTime(e.target.value, 0, 59)
+    setTime((prev) => ({ ...prev, second: secondValue }))
+  }
+  const onCatchKeyDown = (e) => {
+    const { minute, second } = time
     if (e.keyCode === 13) {
-      addTask(inputValue, Date.now(), minute, second)
-      this.setState({
-        inputValue: '',
-        minute: '',
-        second: '',
-      })
+      addTask(inputValue, Date.now(), convertToSecond(minute, second))
+      setTime({ minute: '', second: '' })
+      setInputValue('')
     }
     if (e.keyCode === 27) {
-      this.setState({
-        inputValue: '',
-        minute: '',
-        second: '',
-      })
+      setTime({ minute: '', second: '' })
+      setInputValue('')
     }
   }
 
-  render() {
-    const { inputValue, minute, second } = this.state
+  const { minute, second } = time
 
-    return (
-      <header className="header">
-        <h1>todos</h1>
-        <form className="new-todo-form">
-          <input
-            name="description"
-            className="new-todo"
-            placeholder="What needs to be done?"
-            onChange={this.onChangeInputDescription}
-            value={inputValue}
-            onKeyDown={this.onCatchKeyDown}
-          />
-          <input
-            name="minute"
-            className="new-todo-form__timer"
-            placeholder="Min"
-            value={minute}
-            onChange={this.onChangeInputMinute}
-            type="number"
-            onKeyDown={this.onCatchKeyDown}
-          />
-          <input
-            name="second"
-            className="new-todo-form__timer"
-            placeholder="Sec"
-            value={second}
-            onChange={this.onChangeInputSecond}
-            type="number"
-            onKeyDown={this.onCatchKeyDown}
-          />
-        </form>
-      </header>
-    )
-  }
+  return (
+    <header className="header">
+      <h1>todos</h1>
+      <form className="new-todo-form">
+        <input
+          name="description"
+          className="new-todo"
+          placeholder="What needs to be done?"
+          onChange={onChangeInputDescription}
+          value={inputValue}
+          onKeyDown={onCatchKeyDown}
+        />
+        <input
+          name="minute"
+          className="new-todo-form__timer"
+          placeholder="Min"
+          value={minute}
+          onChange={onChangeInputMinute}
+          type="number"
+          onKeyDown={onCatchKeyDown}
+        />
+        <input
+          name="second"
+          className="new-todo-form__timer"
+          placeholder="Sec"
+          value={second}
+          onChange={onChangeInputSecond}
+          type="number"
+          onKeyDown={onCatchKeyDown}
+        />
+      </form>
+    </header>
+  )
 }

@@ -1,8 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import './TasksFilter.css'
 
-function TasksFilter({ filter, onChangeFilter }) {
+export default function TasksFilter({ filter, onChangeFilter }) {
   return (
     <ul className="filters">
       <li>
@@ -38,15 +37,3 @@ function TasksFilter({ filter, onChangeFilter }) {
     </ul>
   )
 }
-
-TasksFilter.defaultProps = {
-  filter: 'ALL',
-  onChangeFilter: () => {},
-}
-
-TasksFilter.propsType = {
-  filter: PropTypes.oneOf(['ALL', 'ACTIVE', 'COMPLETED']),
-  onChangeFilter: PropTypes.func,
-}
-
-export default TasksFilter

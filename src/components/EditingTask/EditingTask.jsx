@@ -1,50 +1,31 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import './EditingTask.css'
 
-export default class EditingTask extends Component {
-  static defaultProps = {
-    description: 'нет текста',
-    onChangeTask: () => {},
-    id: null,
-  }
+export default function EditingTask({ description, onChangeTask, id }) {
+  const [value, setValue] = useState(description)
 
-  constructor(props) {
-    super(props)
-    const { description } = this.props
-    this.state = { value: description }
-  }
-
-  editValue = (e) => {
+  const editValue = (e) => {
     const newValue = e.target.value
-    this.setState({
-      value: newValue,
-    })
+    setValue(newValue)
   }
 
-  closeEditing = (e, id) => {
-    const { description, onChangeTask } = this.props
+  const closeEditing = (e, tsakId) => {
     if (e.keyCode === 27) {
-      onChangeTask(id, description)
+      onChangeTask(tsakId, description)
     }
   }
 
-  setDescription = (e, id, newDesk) => {
+  const setDescription = (e, tsakId, newDesk) => {
     e.preventDefault()
-    const { onChangeTask, description } = this.props
 
     if (newDesk === '' || newDesk.trim() === '') {
-      onChangeTask(id, description)
-    } else onChangeTask(id, newDesk)
+      onChangeTask(tsakId, description)
+    } else onChangeTask(tsakId, newDesk)
   }
 
-  render() {
-    const { value } = this.state
-    const { editValue, setDescription, closeEditing } = this
-    const { id } = this.props
-    return (
-      <form onSubmit={(e) => setDescription(e, id, value)}>
-        <input type="text" className="edit" value={value} onChange={editValue} onKeyDown={(e) => closeEditing(e, id)} />
-      </form>
-    )
-  }
+  return (
+    <form onSubmit={(e) => setDescription(e, id, value)}>
+      <input type="text" className="edit" value={value} onChange={editValue} onKeyDown={(e) => closeEditing(e, id)} />
+    </form>
+  )
 }

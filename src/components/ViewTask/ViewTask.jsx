@@ -1,10 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import './ViewTask.css'
 import Timer from '../Timer/Timer'
 
-function ViewTask({
+export default function ViewTask({
   id,
   completed,
   onToogleCompleted,
@@ -12,7 +11,6 @@ function ViewTask({
   created,
   onToogleStatus,
   removeTask,
-  minute,
   second,
   updateTimer,
 }) {
@@ -21,7 +19,7 @@ function ViewTask({
       <input className="toggle" type="checkbox" checked={completed} onChange={onToogleCompleted} />
       <label>
         <span className="description">{description}</span>
-        {!completed ? <Timer minute={minute} second={second} updateTimer={updateTimer} id={id} /> : null}
+        {!completed ? <Timer second={second} updateTimer={updateTimer} id={id} /> : null}
         <span className="created">{created}</span>
       </label>
       <button
@@ -35,25 +33,3 @@ function ViewTask({
     </div>
   )
 }
-
-ViewTask.defaultProps = {
-  description: 'нет описания',
-  created: 'неизвестно',
-  completed: false,
-  id: null,
-  onToogleCompleted: () => {},
-  onToogleStatus: () => {},
-  removeTask: () => {},
-}
-
-ViewTask.propsType = {
-  description: PropTypes.string,
-  created: PropTypes.string,
-  completed: PropTypes.boolean,
-  id: PropTypes.number,
-  onToogleCompleted: PropTypes.func,
-  onToogleStatus: PropTypes.func,
-  removeTask: PropTypes.func,
-}
-
-export default ViewTask

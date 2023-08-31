@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import './App.css'
 import { formatDistanceToNow } from 'date-fns'
 
@@ -6,64 +6,53 @@ import Footer from './components/Footer'
 import NewTaskForm from './components/NewTaskForm'
 import TaskList from './components/TaskList'
 
-export default class App extends Component {
-  maxId = 300
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      filter: 'ALL',
-      tasks: [
-        this.createTask('Learn WebCore', new Date(2023, 3, 22), 0, 0, 'completed', true),
-        this.createTask('Learn JSCore', new Date(2023, 5, 22), 0, 0, 'completed', true),
-        this.createTask('Learn React', new Date(2023, 6, 22), 0, 0, 'active'),
-      ],
+export default function App() {
+  const createTask = (description, date, second = 0, status = 'active', completed = false) => {
+    return {
+      description,
+      created: formatDistanceToNow(date, { addSuffix: true }),
+      id: Math.random().toFixed(5) * 100000,
+      status,
+      completed,
+      second,
     }
   }
+  const initialState = [
+    createTask('Learn WebCore', new Date(2023, 3, 22), 0, 'completed', true),
+    createTask('Learn JSCore', new Date(2023, 5, 22), 0, 'completed', true),
+    createTask('Learn React', new Date(2023, 6, 22), 0, 'active'),
+  ]
+  const [tasks, setTasks] = useState(initialState)
+  const [filter, setfilter] = useState('ALL')
 
-  onChangeTask = (id, description) => {
-    const { tasks: tasksArr } = this.state
-    const idx = tasksArr.findIndex((el) => el.id === id)
-    const editingTask = { ...tasksArr[idx] }
-    this.setState(({ tasks }) => {
-      const newArr = [
-        ...tasks.slice(0, idx),
-        { ...editingTask, description, status: 'active' },
-        ...tasks.slice(idx + 1),
-      ]
+  const onChangeTask = (id, description) => {
+    const idx = tasks.findIndex((el) => el.id === id)
+    const editingTask = { ...tasks[idx] }
+    const newTasks = [
+      ...tasks.slice(0, idx),
+      { ...editingTask, description, status: 'active' },
+      ...tasks.slice(idx + 1),
+    ]
+    setTasks(newTasks)
+  }
 
-      return {
-        tasks: newArr,
-      }
+  const removeTask = (id) => {
+    const newTasks = tasks.filter((el) => el.id !== id)
+    setTasks(newTasks)
+  }
+
+  const addTask = (text, date, minute, second) => {
+    const newTask = createTask(text, date, minute, second)
+    setTasks((prev) => {
+      return [...prev, newTask]
     })
   }
 
-  removeTask = (id) => {
-    this.setState((state) => {
-      const newTasks = state.tasks.filter((el) => el.id !== id)
-
-      return {
-        tasks: newTasks,
-      }
-    })
-  }
-
-  addTask = (text, date, minute, second) => {
-    const newTask = this.createTask(text, date, minute, second)
-    this.setState(({ tasks }) => {
-      return {
-        tasks: [...tasks, newTask],
-      }
-    })
-  }
-
-  onToogleCompleted = (id) => {
-    const { tasks: tasksArr } = this.state
-
-    const idx = tasksArr.findIndex((el) => el.id === id)
-    const editingTask = { ...tasksArr[idx] }
+  const onToogleCompleted = (id) => {
+    const idx = tasks.findIndex((el) => el.id === id)
+    const editingTask = { ...tasks[idx] }
     const isCompleted = editingTask.completed
-    let newArr
+
     if (isCompleted) {
       editingTask.completed = false
       editingTask.status = 'active'
@@ -71,102 +60,56 @@ export default class App extends Component {
       editingTask.completed = true
       editingTask.status = 'completed'
     }
-    this.setState(({ tasks }) => {
-      newArr = [...tasks.slice(0, idx), { ...editingTask }, ...tasks.slice(idx + 1)]
-      return {
-        tasks: newArr,
-      }
-    })
+    const newArr = [...tasks.slice(0, idx), { ...editingTask }, ...tasks.slice(idx + 1)]
+    setTasks(newArr)
   }
 
-  onToogleStatus = (id, status) => {
-    const { tasks: tasksArr } = this.state
-    const idx = tasksArr.findIndex((el) => el.id === id)
-    const editingTask = { ...tasksArr[idx] }
-    this.setState(({ tasks }) => {
-      const newArr = [...tasks.slice(0, idx), { ...editingTask, status }, ...tasks.slice(idx + 1)]
-      return {
-        tasks: newArr,
-      }
-    })
+  const onToogleStatus = (id, status) => {
+    const idx = tasks.findIndex((el) => el.id === id)
+    const editingTask = { ...tasks[idx] }
+    const newArr = [...tasks.slice(0, idx), { ...editingTask, status }, ...tasks.slice(idx + 1)]
+    setTasks(newArr)
   }
 
-  onChangeFilter = (filterName) => {
-    this.setState({
-      filter: filterName,
-    })
+  const onChangeFilter = (filterName) => {
+    setfilter(filterName)
   }
 
-  onDeleteCompleted = () => {
-    this.setState((state) => {
-      const newTasks = state.tasks.filter((el) => el.completed === false)
-      return {
-        tasks: newTasks,
-      }
-    })
+  const onDeleteCompleted = () => {
+    const newTasks = tasks.filter((el) => el.completed === false)
+    setTasks(newTasks)
   }
 
-  activeTasksCount = () => {
-    const { tasks } = this.state
+  const activeTasksCount = () => {
     return tasks.filter((el) => el.completed === false).length
   }
 
-  updateTimer = (id, minute, second) => {
-    const { tasks: tasksArr } = this.state
-    const idx = tasksArr.findIndex((el) => el.id === id)
-    const editingTask = { ...tasksArr[idx] }
-    this.setState(({ tasks }) => {
-      const newArr = [...tasks.slice(0, idx), { ...editingTask, minute, second }, ...tasks.slice(idx + 1)]
-      return {
-        tasks: newArr,
-      }
-    })
+  const updateTimer = (id, second) => {
+    const idx = tasks.findIndex((el) => el.id === id)
+    const editingTask = { ...tasks[idx] }
+    const newArr = [...tasks.slice(0, idx), { ...editingTask, second }, ...tasks.slice(idx + 1)]
+    console.log(second)
+    setTasks(newArr)
   }
 
-  createTask(description, date, minute = 0, second = 0, status = 'active', completed = false) {
-    return {
-      description,
-      created: formatDistanceToNow(date, { addSuffix: true }),
-      id: this.maxId++,
-      status,
-      completed,
-      minute,
-      second,
-    }
-  }
-
-  render() {
-    const { tasks, filter } = this.state
-    const {
-      addTask,
-      removeTask,
-      onToogleCompleted,
-      onChangeFilter,
-      onDeleteCompleted,
-      activeTasksCount,
-      onToogleStatus,
-      onChangeTask,
-      updateTimer,
-    } = this
-    return (
-      <section className="todoapp">
-        <NewTaskForm addTask={addTask} />
-        <TaskList
-          tasks={tasks}
-          filter={filter}
-          removeTask={removeTask}
-          onToogleCompleted={onToogleCompleted}
-          onToogleStatus={onToogleStatus}
-          onChangeTask={onChangeTask}
-          updateTimer={updateTimer}
-        />
-        <Footer
-          filter={filter}
-          onChangeFilter={onChangeFilter}
-          onDeleteCompleted={onDeleteCompleted}
-          activeTasks={activeTasksCount()}
-        />
-      </section>
-    )
-  }
+  return (
+    <section className="todoapp">
+      <NewTaskForm addTask={addTask} />
+      <TaskList
+        tasks={tasks}
+        filter={filter}
+        removeTask={removeTask}
+        onToogleCompleted={onToogleCompleted}
+        onToogleStatus={onToogleStatus}
+        onChangeTask={onChangeTask}
+        updateTimer={updateTimer}
+      />
+      <Footer
+        filter={filter}
+        onChangeFilter={onChangeFilter}
+        onDeleteCompleted={onDeleteCompleted}
+        activeTasks={activeTasksCount()}
+      />
+    </section>
+  )
 }
