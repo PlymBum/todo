@@ -11,6 +11,7 @@ export default function TaskList({
   onChangeTask,
   onToogleStatus,
   updateTimer,
+  toogleEnable,
 }) {
   return (
     <section className="main">
@@ -37,6 +38,9 @@ export default function TaskList({
                 completed={el.completed}
                 second={el.second}
                 updateTimer={updateTimer}
+                toogleEnable={toogleEnable}
+                isEnable={el.isEnable}
+                timerStartTime={el.timerStartTime}
               />
             )
           })}

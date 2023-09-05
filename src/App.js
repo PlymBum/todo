@@ -7,7 +7,7 @@ import NewTaskForm from './components/NewTaskForm'
 import TaskList from './components/TaskList'
 
 export default function App() {
-  const createTask = (description, date, second = 0, status = 'active', completed = false) => {
+  const createTask = (description, date, second = 0, status = 'active', completed = false, isEnable = false) => {
     return {
       description,
       created: formatDistanceToNow(date, { addSuffix: true }),
@@ -15,6 +15,8 @@ export default function App() {
       status,
       completed,
       second,
+      isEnable,
+      timerStartTime: null,
     }
   }
   const initialState = [
@@ -88,7 +90,17 @@ export default function App() {
     const idx = tasks.findIndex((el) => el.id === id)
     const editingTask = { ...tasks[idx] }
     const newArr = [...tasks.slice(0, idx), { ...editingTask, second }, ...tasks.slice(idx + 1)]
-    console.log(second)
+    setTasks(newArr)
+  }
+  const toogleEnable = (id) => {
+    const idx = tasks.findIndex((el) => el.id === id)
+    const editingTask = { ...tasks[idx] }
+    const startTime = !editingTask.isEnable ? new Date() : null
+    const newArr = [
+      ...tasks.slice(0, idx),
+      { ...editingTask, isEnable: !editingTask.isEnable, timerStartTime: startTime },
+      ...tasks.slice(idx + 1),
+    ]
     setTasks(newArr)
   }
 
@@ -103,6 +115,7 @@ export default function App() {
         onToogleStatus={onToogleStatus}
         onChangeTask={onChangeTask}
         updateTimer={updateTimer}
+        toogleEnable={toogleEnable}
       />
       <Footer
         filter={filter}

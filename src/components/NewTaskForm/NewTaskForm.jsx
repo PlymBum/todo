@@ -17,8 +17,8 @@ export default function NewTaskForm({ addTask }) {
     }
     return +value
   }
-  const convertToSecond = (min, sec) => {
-    return min * 60 + sec
+  const convertToSecond = (min = 0, sec = 0) => {
+    return Number(min * 60 + sec)
   }
   const onChangeInputMinute = (e) => {
     const minutValue = validateTime(e.target.value, 0, 59)

@@ -13,13 +13,25 @@ export default function ViewTask({
   removeTask,
   second,
   updateTimer,
+  isEnable,
+  toogleEnable,
+  timerStartTime,
 }) {
   return (
     <div className="view">
       <input className="toggle" type="checkbox" checked={completed} onChange={onToogleCompleted} />
       <label>
         <span className="description">{description}</span>
-        {!completed ? <Timer second={second} updateTimer={updateTimer} id={id} /> : null}
+        {!completed ? (
+          <Timer
+            second={second}
+            updateTimer={updateTimer}
+            id={id}
+            toogleEnable={toogleEnable}
+            isEnable={isEnable}
+            timerStartTime={timerStartTime}
+          />
+        ) : null}
         <span className="created">{created}</span>
       </label>
       <button

@@ -12,6 +12,9 @@ export default function Task({
   onToogleCompleted,
   updateTimer,
   second,
+  toogleEnable,
+  isEnable,
+  timerStartTime,
 }) {
   const { description, created, completed, status, id } = task
 
@@ -30,6 +33,9 @@ export default function Task({
           key={id}
           second={second}
           updateTimer={updateTimer}
+          toogleEnable={toogleEnable}
+          isEnable={isEnable}
+          timerStartTime={timerStartTime}
         />
       ) : (
         <EditingTask description={description} onChangeTask={onChangeTask} id={id} onToogleStatus={onToogleStatus} />
